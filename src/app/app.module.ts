@@ -10,9 +10,10 @@ import { CONST_ROUTING } from './app.routing';
 import { AppComponent } from './app.component';
 import { GrafiComponent } from './grafi/grafi.component';
 import { HomeComponent } from './home/home.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
-  declarations: [AppComponent, GrafiComponent, HomeComponent],
+  declarations: [AppComponent, GrafiComponent, HomeComponent, LoginComponent],
   imports: [BrowserModule, HttpClientModule, FormsModule, NgxPaginationModule,  CONST_ROUTING],
   providers: [],
   bootstrap: [AppComponent]

@@ -11,16 +11,12 @@ export class IzdatkiService {
 
   constructor(private http: HttpClient){}
 
-  public meme = "service dela hura";
   public izdatki = [];
   public prihodki = [];
 
 
   servFunc() {
-
     return this.http.get('http://localhost:8080/get');
-
-
   }
 }
 
