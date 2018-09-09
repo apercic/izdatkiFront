@@ -1,0 +1,123 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!DOCTYPE html>
+
+<div style="text-align:center">
+  <h1>
+    Pregled izdatkov/prihodkov
+  </h1>
+
+  {{ message }}<br>
+  {{title}}
+
+
+</div>
+
+
+<form class="form-inline" align="center">
+  <label>Nov vnos:</label>
+  <div class="form-group">
+    <input type="date" class="form-control"  [(ngModel)]="datum" [ngModelOptions]="{standalone: true}">
+  </div>
+  <div class="form-group">
+    <select class="form-control"  [(ngModel)]="grupa" [ngModelOptions]="{standalone: true}">
+      <option *ngFor="let c of izdatkiGrupe" [value]="c.ime">{{c.ime}}</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <select class="form-control"  [(ngModel)]="vrstavrsta" [ngModelOptions]="{standalone: true}">
+      <option *ngFor="let c of vrstaIzplacila" [value]="c" >{{c}}</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label>Vrednost:</label>
+    <input type="number" step="1" class="form-control" [(ngModel)]="vrednost" [ngModelOptions]="{standalone: true}">
+  </div>
+  <button type="submit" class="btn btn-default" (click)="shraniIzdatek()">Submit</button>
+</form>
+
+
+<!--Doda novo kategorijo-->
+<form class="form-inline" align="center">
+  <div class="form-group">
+    <label>Dodaj kategorijo:</label>
+    <input type="text" class="form-control" [(ngModel)]="novakategorija" [ngModelOptions]="{standalone: true}">
+  </div>
+  <button type="submit" class="btn btn-default" (click)="shraniKategorijo()">Submit</button>
+</form>
+
+
+<br><br><br>
+
+
+<form class="row">
+  <div class="col-xs-6">
+    <h2 align="center">IZDATKI:</h2>
+    Skupno Izdatki: {{skupnoIzdatki}}
+    <table class="table">
+      <thead>
+      <tr>
+        <th>datum</th>
+        <th>grupa</th>
+        <th>vrednost</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let izdatek of izdatki| paginate: { id:'m1', itemsPerPage: 100, currentPage: p }">
+        <td>{{izdatek.datum}}</td>
+        <td>{{izdatek.grupa}}</td>
+        <td>{{izdatek.vrednost*(-1)}}</td>
+        <button (click)="zbrisi(izdatek)">X</button>
+      </tr>
+      <pagination-controls id='m1' (pageChange)="p = $event"></pagination-controls>
+      </tbody>
+    </table>
+
+  </div>
+  <div class="col-xs-6">
+    <h2 align="center">PRIHODKI:</h2>
+    Skupno Prihodki: {{skupnoPrihodki}}
+    <table class="table">
+      <thead>
+      <tr>
+        <th>datum</th>
+        <th>grupa</th>
+        <th>vrednost</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let prihodek of prihodki| paginate: { id:'m2', itemsPerPage: 3, currentPage: s }">
+        <td>{{prihodek.datum}}</td>
+        <td>{{prihodek.grupa}}</td>
+        <td>{{prihodek.vrednost}}</td>
+        <button (click)="zbrisi(prihodek)">X</button>
+      </tr>
+      <pagination-controls id='m2' (pageChange)="s = $event"></pagination-controls>
+      </tbody>
+    </table>
+  </div>
+</form>
+
+
+<form class="form-inline" align="center">
+  PRIKAŽI FILTRIRANE PODATKE:<br>
+  OD<div class="form-group">
+    <input type="date" class="form-control"  [(ngModel)]="datumOD" [ngModelOptions]="{standalone: true}">
+  </div>
+  DO<div class="form-group">
+    <input type="date" class="form-control"  [(ngModel)]="datumDO" [ngModelOptions]="{standalone: true}">
+  </div><br>
+  ZA<div class="form-group">
+    <select class="form-control"  [(ngModel)]="grupaFILTER" [ngModelOptions]="{standalone: true}">
+      <option *ngFor="let c of izdatkiGrupe" [value]="c.ime">{{c.ime}}</option>
+    </select>
+  </div>
+  <button type="submit" class="btn btn-default" (click)=" filtriraj()">Prikaži</button>
+  <label>{{filterSTATUS}}</label>
+</form>
+
+
+
+
+
