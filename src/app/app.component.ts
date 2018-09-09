@@ -15,7 +15,7 @@ export class AppComponent {
   skupnoIzdatki = 0;
   skupnoPrihodki = 0;
   ime = "";
-  vrednost = 0;
+  vrednost = 0.1;
   grupa = "";
   vrstavrsta = "";
   novakategorija = "";
@@ -25,8 +25,11 @@ export class AppComponent {
 
   datumOD = this.formatDate(new Date());
   datumDO = this.formatDate(new Date());
-  grupaFILTER = this.izdatkiGrupe[0];
+  grupaFILTER = "";
   filterSTATUS = "";
+
+  lihoDATUM = 0;
+  lihoVREDNOST = 0;
 
   constructor(private http: HttpClient){}
 
@@ -54,8 +57,6 @@ export class AppComponent {
     this.http.get('http://localhost:8080/getKategorije').subscribe((data:any) => {
       if(data.length) this.izdatkiGrupe = data;
       else return;
-
-      this.grupaFILTER = this.izdatkiGrupe[0].ime;
 
       if (!this.grupa) this.grupa = this.izdatkiGrupe[0].ime;
       if(!this.vrstavrsta) this.vrstavrsta = this.vrstaIzplacila[0];
@@ -87,8 +88,9 @@ export class AppComponent {
   public shraniIzdatek() {
     //shrani izdatek
     var vrsta = 1;
-    if (this.vrstavrsta== "izdatek")
+    if (this.vrstavrsta== "izdatek") {
       vrsta = -1;
+    }
 
     this.http.post('http://localhost:8080/save', {
      "datum":this.datum.toString(),
@@ -138,13 +140,13 @@ export class AppComponent {
 
       //filtriraš podatke po grupi in datumu
       for (var i = 0; i < this.izdatki.length; i++) {
-        if (this.izdatki[i].grupa != this.grupaFILTER || this.datumOD > this.izdatki[i].datum || this.datumDO < this.izdatki[i].datum) {
+        if (this.grupaFILTER && this.izdatki[i].grupa != this.grupaFILTER || this.datumOD > this.izdatki[i].datum || this.datumDO < this.izdatki[i].datum) {
           this.izdatki.splice(i,1);
           i--;
         }
       }
       for (var i = 0; i < this.prihodki.length; i++) {
-        if (this.prihodki[i].grupa != this.grupaFILTER || this.datumOD > this.prihodki[i].datum || this.datumDO < this.prihodki[i].datum) {
+        if (this.grupaFILTER && this.prihodki[i].grupa != this.grupaFILTER || this.datumOD > this.prihodki[i].datum || this.datumDO < this.prihodki[i].datum) {
           this.prihodki.splice(i,1);
           i--;
         }
@@ -152,5 +154,81 @@ export class AppComponent {
       this.posodobiVrednost();
     });
   }
+
+  public swap(vrsta, i, j) {
+    //zamenja i-ti in (i+1)-ti element v izdatkih(vrsta=0) ali prihodkih(vrsta=1)
+    if (vrsta == 0) {var temp = this.izdatki[i];this.izdatki[i] = this.izdatki[j];this.izdatki[j] = temp;}
+    else {var temp = this.prihodki[i];this.prihodki[i] = this.prihodki[j];this.prihodki[j] = temp;}
+  }
+
+  public urediPoDatumu(vrsta) {
+    //vrsta označuje ali smo kliknili uredi po datumu pri izdatkih ali prihodkih
+    //this.lihoDATUM nam pa pove če je številka klikov liha-1.uredimo padajoče, 2.naraščajoče
+    var lenlen = this.izdatki.length;
+    if (vrsta == 1) lenlen = this.prihodki.length;
+
+    for (var i = 0; i < lenlen; i++) {
+      for (var j = 0; j < lenlen; j++) {
+        if (vrsta == 0) {
+          var datum1 = this.izdatki[i].datum;
+          var datum2 = this.izdatki[j].datum;
+        }
+        else {
+          var datum1 = this.prihodki[i].datum;
+          var datum2 = this.prihodki[j].datum;
+        }
+        if ((1 - this.lihoDATUM) && datum1 < datum2)
+          this.swap(vrsta, i, j);
+        else if (this.lihoDATUM && datum1 > datum2)
+          this.swap(vrsta, i, j);
+      }
+    } this.lihoDATUM = 1-this.lihoDATUM;
+  }
+
+  public urediPoGrupi(vrsta) {
+    //vrsta označuje ali smo kliknili uredi po grupi pri izdatkih ali prihodkih
+    var lenlen = this.izdatki.length;
+    if (vrsta == 1) lenlen = this.prihodki.length;
+
+    for (var i = 0; i < lenlen; i++) {
+      for (var j = 0; j < lenlen; j++) {
+        if (vrsta == 0) {
+          var grupa1 = this.izdatki[i].grupa;
+          var grupa2 = this.izdatki[j].grupa;
+        }
+        else {
+          var grupa1 = this.prihodki[i].grupa;
+          var grupa2 = this.prihodki[j].grupa;
+        }
+        if (grupa1 < grupa2)
+          this.swap(vrsta, i, j);
+      }
+    }
+  }
+
+  public urediPoVrednosti(vrsta) {
+    //vrsta označuje ali smo kliknili uredi po grupi pri izdatkih ali prihodkih
+    var lenlen = this.izdatki.length;
+    if (vrsta == 1) lenlen = this.prihodki.length;
+    for (var i = 0; i < lenlen; i++) {
+
+      for (var j = 0; j < lenlen; j++) {
+        if (vrsta == 0) {
+          var vrednost1 = this.izdatki[i].vrednost;
+          var vrednost2 = this.izdatki[j].vrednost;
+        }
+        else {
+          console.log("heloooo");
+          var vrednost1 = this.prihodki[i].vrednost;
+          var vrednost2 = this.prihodki[j].vrednost;
+        }
+        if ((1 - this.lihoVREDNOST) && vrednost1 < vrednost2)
+          this.swap(vrsta, i, j);
+        else if (this.lihoVREDNOST && vrednost1 > vrednost2)
+          this.swap(vrsta, i, j);
+      }
+    } this.lihoVREDNOST = 1-this.lihoVREDNOST;
+  }
+
 
 }
