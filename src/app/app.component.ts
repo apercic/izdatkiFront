@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import {RequestOptions} from "@angular/http";
 
 @Component({
   selector: 'app-root',
@@ -76,7 +75,7 @@ export class AppComponent {
           this.prihodki.push(data[i]);
       }
       this.posodobiVrednost();
-      return 0;
+      this.narisiGraf();
     });
   }
 
@@ -152,6 +151,7 @@ export class AppComponent {
         }
       }
       this.posodobiVrednost();
+      this.narisiGraf();
     });
   }
 
@@ -229,6 +229,51 @@ export class AppComponent {
       }
     } this.lihoVREDNOST = 1-this.lihoVREDNOST;
   }
+
+
+  //----
+  public barChartOptions:any = {
+    scaleShowVerticalLines: false,
+    responsive: true
+  };
+  public labels:string[] = [];
+  public barChartType:string = 'bar';
+
+  public barData:any[] = [
+    {data: [], label: 'Izdatki'},
+    {data: [], label: 'Prihodki'}
+  ];
+
+  public narisiGraf() {
+    this.barData[0].data = [];
+    this.barData[1].data = [];
+    this.labels = [];
+
+    for (var i = 0; i < this.izdatki.length; i++) {
+      var tempDatum = this.izdatki[i].datum.substring(0,4);
+      //če leta še ni na seznamu ga dodamo
+      if (this.labels.indexOf(tempDatum)==-1) {
+        //če leta še ni na seznamu ga dodamo
+        this.labels.push(tempDatum);
+        this.barData[0].data.push(0);
+        this.barData[1].data.push(0);
+      }
+      this.barData[0].data[this.labels.indexOf(tempDatum)] += this.izdatki[i].vrednost*(-1);
+    }
+
+    for (var i = 0; i < this.prihodki.length; i++) {
+      var tempDatum = this.prihodki[i].datum.substring(0,4);
+      if (this.labels.indexOf(tempDatum)==-1) {
+        //če leta še ni na seznamu ga dodamo
+        this.labels.push(tempDatum);
+        this.barData[0].data.push(0);
+        this.barData[1].data.push(0);
+      }
+      this.barData[1].data[this.labels.indexOf(tempDatum)] += this.prihodki[i].vrednost;
+    }
+
+  }
+  //-----
 
 
 }
