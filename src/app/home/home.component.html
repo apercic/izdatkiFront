@@ -64,26 +64,6 @@
   <button type="submit" class="btn btn-default" (click)="shraniKategorijo()">Submit</button>
 </form>
 
-
-
-<br><br><br>
-
-<h5>Prikaži filtrirane podatke</h5>
-<form class="form-inline" align="center">
-  OD<div class="form-group">
-  <input type="date" class="form-control"  [(ngModel)]="datumOD" [ngModelOptions]="{standalone: true}">
-</div>
-  DO<div class="form-group">
-  <input type="date" class="form-control"  [(ngModel)]="datumDO" [ngModelOptions]="{standalone: true}">
-</div>
-  ZA<div class="form-group">
-  <select class="form-control"  [(ngModel)]="grupaFILTER" [ngModelOptions]="{standalone: true}">
-    <option *ngFor="let c of izdatkiGrupe" [value]="c.ime">{{c.ime}}</option>
-  </select>
-</div>
-  <button type="submit" class="btn btn-default" (click)=" filtriraj()">Prikaži</button>
-  <label>{{filterSTATUS}}</label>
-</form>
 <br><br>
 
 <form class="row">
