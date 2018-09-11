@@ -30,6 +30,10 @@ export class HomeComponent {
   lihoDATUM = 0;
   lihoVREDNOST = 0;
 
+  novvnos = 0;
+  novakat = 0;
+  filtriprikaza = 0;
+
   constructor(private http: HttpClient){}
 
   public formatDate(date) {

@@ -3,13 +3,17 @@
 
 <!DOCTYPE html>
 
-<div style="text-align:center">
-  {{ message }}<br>
-  {{title}}
-</div>
 
-<h3>Nov vnos:</h3>
-<form class="form-inline" align="center">
+<br>
+<div class="row">
+<h5>Nov vnos:</h5>&nbsp;&nbsp;&nbsp;&nbsp;
+<button type="button" class="btn btn-default" (click)="novvnos = !novvnos" >
+  <span class="fa fa-remove" [hidden]="!novvnos"></span>
+  <span class="fa fa-plus" [hidden]="novvnos"></span>
+</button>
+</div>
+<br>
+<form class="form-inline" align="center" [hidden]="!novvnos">
   <br>
   <div class="col-xs-2">
     <label style="color:grey">datum</label>
@@ -37,39 +41,31 @@
   </div>
 </form>
 
+<hr>
 
 <br>
-<h3>Dodaj kategorijo:</h3>
-<form class="form-inline" align="center">
+<div class="row">
+  <h5>Dodaj kategorijo:</h5>&nbsp;&nbsp;&nbsp;&nbsp;
+  <button type="button" class="btn btn-default" (click)="novakat = !novakat" >
+    <span class="fa fa-remove" [hidden]="!novakat"></span>
+    <span class="fa fa-plus" [hidden]="novakat"></span>
+  </button>
+</div>
+<br>
+<form class="form-inline" align="center" [hidden]="!novakat">
   <div class="form-group">
     <input type="text" class="form-control" [(ngModel)]="novakategorija" [ngModelOptions]="{standalone: true}">
   </div>
   <button type="submit" class="btn btn-default" (click)="shraniKategorijo()">Submit</button>
 </form>
-
+<hr>
 
 <br><br><br>
 
-<h5>Prikaži filtrirane podatke</h5>
-<form class="form-inline" align="center">
-  OD<div class="form-group">
-  <input type="date" class="form-control"  [(ngModel)]="datumOD" [ngModelOptions]="{standalone: true}">
-</div>
-  DO<div class="form-group">
-  <input type="date" class="form-control"  [(ngModel)]="datumDO" [ngModelOptions]="{standalone: true}">
-</div>
-  ZA<div class="form-group">
-  <select class="form-control"  [(ngModel)]="grupaFILTER" [ngModelOptions]="{standalone: true}">
-    <option *ngFor="let c of izdatkiGrupe" [value]="c.ime">{{c.ime}}</option>
-  </select>
-</div>
-  <button type="submit" class="btn btn-default" (click)=" filtriraj()">Prikaži</button>
-  <label>{{filterSTATUS}}</label>
-</form>
-<br><br>
+
 
 <form class="row">
-  <div class="col-xs-6">
+  <div class="col-md-5">
     <h2 align="center">IZDATKI:</h2>
     Skupno Izdatki: {{skupnoIzdatki}}
     <table class="table">
@@ -94,7 +90,8 @@
     </table>
 
   </div>
-  <div class="col-xs-6">
+  <div class="col-md-1"></div>
+  <div class="col-md-5">
     <h2 align="center">PRIHODKI:</h2>
     Skupno Prihodki: {{skupnoPrihodki}}
     <table class="table">
@@ -120,6 +117,30 @@
   </div>
 </form>
 
+<br>
+<div class="row">
+  <h5>Filtri prikaza:</h5>&nbsp;&nbsp;&nbsp;&nbsp;
+  <button type="button" class="btn btn-default" (click)="filtriprikaza = !filtriprikaza" >
+    <span class="fa fa-remove" [hidden]="!filtriprikaza"></span>
+    <span class="fa fa-plus" [hidden]="filtriprikaza"></span>
+  </button>
+</div>
+<br>
+<form class="form-inline" align="center" [hidden]="!filtriprikaza">
+  OD<div class="form-group">
+  <input type="date" class="form-control"  [(ngModel)]="datumOD" [ngModelOptions]="{standalone: true}">
+</div>
+  DO<div class="form-group">
+  <input type="date" class="form-control"  [(ngModel)]="datumDO" [ngModelOptions]="{standalone: true}">
+</div>
+  ZA<div class="form-group">
+  <select class="form-control"  [(ngModel)]="grupaFILTER" [ngModelOptions]="{standalone: true}">
+    <option *ngFor="let c of izdatkiGrupe" [value]="c.ime">{{c.ime}}</option>
+  </select>
+</div>
+  <button type="submit" class="btn btn-default" (click)=" filtriraj()">Posodobi</button>
+  <label>{{filterSTATUS}}</label>
+</form>
 
 
 <br><br>
