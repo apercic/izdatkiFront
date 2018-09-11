@@ -3,14 +3,17 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import {NgxPaginationModule} from 'ngx-pagination';
-import { ChartsModule } from 'ng2-charts';
+import { Chart } from 'chart.js';
+
+import { CONST_ROUTING } from './app.routing';
 
 import { AppComponent } from './app.component';
 import { GrafiComponent } from './grafi/grafi.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
-  declarations: [AppComponent, GrafiComponent],
-  imports: [BrowserModule, HttpClientModule, FormsModule, NgxPaginationModule,  ChartsModule],
+  declarations: [AppComponent, GrafiComponent, HomeComponent],
+  imports: [BrowserModule, HttpClientModule, FormsModule, NgxPaginationModule,  CONST_ROUTING],
   providers: [],
   bootstrap: [AppComponent]
 })

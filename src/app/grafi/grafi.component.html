@@ -1,3 +1,10 @@
-<p>
-  grafi works!
-</p>
+<div align="right">
+  <label><input type="radio" name="options" value="1" [(ngModel)]="model.options" (change)="onCheckCheckbox()">Line graph</label>&nbsp;
+  <label><input type="radio" name="options" value="2" [(ngModel)]="model.options" (change)="onCheckCheckbox()">Bar graph</label>
+</div>
+
+
+
+<body>
+<canvas id="chartJSContainer" width="600" height="400"></canvas>
+</body>

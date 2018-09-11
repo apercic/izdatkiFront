@@ -1,0 +1,130 @@
+<script src="node_modules/chart.js/src/chart.js" xmlns=""></script>
+<script src="../app.component.css"></script>
+
+<!DOCTYPE html>
+
+<div style="text-align:center">
+  {{ message }}<br>
+  {{title}}
+</div>
+
+<h3>Nov vnos:</h3>
+<form class="form-inline" align="center">
+  <br>
+  <div class="col-xs-2">
+    <label style="color:grey">datum</label>
+    <input type="date" class="form-control"  [(ngModel)]="datum" [ngModelOptions]="{standalone: true}">
+  </div>
+  <div class="col-xs-2">
+    <label style="color:grey">kategorija</label>
+    <select class="form-control"  [(ngModel)]="grupa" [ngModelOptions]="{standalone: true}">
+      <option *ngFor="let c of izdatkiGrupe" [value]="c.ime">{{c.ime}}</option>
+    </select>
+  </div>
+  <div class="col-xs-2">
+    <label style="color:grey">vrsta</label>
+    <select class="form-control"  [(ngModel)]="vrstavrsta" [ngModelOptions]="{standalone: true}">
+      <option *ngFor="let c of vrstaIzplacila" [value]="c" >{{c}}</option>
+    </select>
+  </div>
+  <div class="col-xs-2">
+    <label style="color:grey">vrednost</label>
+    <input type="number" step="0.01" min="0.01" class="form-control" [(ngModel)]="vrednost" [ngModelOptions]="{standalone: true}">
+  </div>
+  <div class="col-xs-2">
+    <label>--</label>
+    <button type="submit" class="btn btn-default" (click)="shraniIzdatek()">Submit</button>
+  </div>
+</form>
+
+
+<br>
+<h3>Dodaj kategorijo:</h3>
+<form class="form-inline" align="center">
+  <div class="form-group">
+    <input type="text" class="form-control" [(ngModel)]="novakategorija" [ngModelOptions]="{standalone: true}">
+  </div>
+  <button type="submit" class="btn btn-default" (click)="shraniKategorijo()">Submit</button>
+</form>
+
+
+<br><br><br>
+
+<h5>Prikaži filtrirane podatke</h5>
+<form class="form-inline" align="center">
+  OD<div class="form-group">
+  <input type="date" class="form-control"  [(ngModel)]="datumOD" [ngModelOptions]="{standalone: true}">
+</div>
+  DO<div class="form-group">
+  <input type="date" class="form-control"  [(ngModel)]="datumDO" [ngModelOptions]="{standalone: true}">
+</div>
+  ZA<div class="form-group">
+  <select class="form-control"  [(ngModel)]="grupaFILTER" [ngModelOptions]="{standalone: true}">
+    <option *ngFor="let c of izdatkiGrupe" [value]="c.ime">{{c.ime}}</option>
+  </select>
+</div>
+  <button type="submit" class="btn btn-default" (click)=" filtriraj()">Prikaži</button>
+  <label>{{filterSTATUS}}</label>
+</form>
+<br><br>
+
+<form class="row">
+  <div class="col-xs-6">
+    <h2 align="center">IZDATKI:</h2>
+    Skupno Izdatki: {{skupnoIzdatki}}
+    <table class="table">
+      <thead>
+      <tr>
+        <th (click)="urediPoDatumu(0)">datum</th>
+        <th (click)="urediPoGrupi(0)">grupa</th>
+        <th (click)="urediPoVrednosti(0)">vrednost</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let izdatek of izdatki| paginate: { id:'m1', itemsPerPage: 5, currentPage: p }">
+        <td>{{izdatek.datum}}</td>
+        <td>{{izdatek.grupa}}</td>
+        <td>{{izdatek.vrednost}}</td>
+        <button type="button" class="btn btn-default" (click)="zbrisi(izdatek)">
+          <span class="fa fa-remove"></span>
+        </button>
+      </tr>
+      <pagination-controls id='m1' (pageChange)="p = $event"></pagination-controls>
+      </tbody>
+    </table>
+
+  </div>
+  <div class="col-xs-6">
+    <h2 align="center">PRIHODKI:</h2>
+    Skupno Prihodki: {{skupnoPrihodki}}
+    <table class="table">
+      <thead>
+      <tr>
+        <th (click)="urediPoDatumu(1)">datum</th>
+        <th (click)="urediPoGrupi(1)">grupa</th>
+        <th (click)="urediPoVrednosti(1)">vrednost</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let prihodek of prihodki| paginate: { id:'m2', itemsPerPage: 5, currentPage: s }">
+        <td>{{prihodek.datum}}</td>
+        <td>{{prihodek.grupa}}</td>
+        <td>{{prihodek.vrednost}}</td>
+        <button type="button" class="btn btn-default" (click)="zbrisi(prihodek)">
+          <span class="fa fa-remove"></span>
+        </button>
+      </tr>
+      <pagination-controls id='m2' (pageChange)="s = $event"></pagination-controls>
+      </tbody>
+    </table>
+  </div>
+</form>
+
+
+
+<br><br>
+
+
+
+
+
