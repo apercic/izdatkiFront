@@ -15,10 +15,27 @@
       </ul>
     </div>
 
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" [hidden]="!logedin">{{user.ime}}</a>
+      </li>
+    </ul>
 
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/login']" >Login</a>
+        <a class="nav-link" [hidden]="logedin" [routerLink]="['/signup']" >Signup</a>
+      </li>
+    </ul>
+
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" [hidden]="logedin" [routerLink]="['/login']" >Login</a>
+      </li>
+    </ul>
+
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <button class="nav-link"  [hidden]="!logedin" (click)="signout()">Sign out</button>
       </li>
     </ul>
 

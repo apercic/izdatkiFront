@@ -13,6 +13,18 @@
 </head>
 <body>
   <app-root></app-root>
+  <script>
+  var NGXSTORE_CONFIG = {
+    prefix: 'ngx_',      // default: 'ngx_'
+    clearType: 'prefix', // default: 'prefix'
+    mutateObjects: true, // default: true
+    debugMode: false,    // you can enable debug logs if you ever meet any bug to localize its source
+    cookiesScope: '',    // what you pass here will actually prepend base domain
+    cookiesCheckInterval: 0, // number in ms describing how often cookies should be checked for changes
+    previousPrefix: 'angular2ws_', // you have to set it only if you were using custom prefix in old version ('angular2ws_' is a default value)
+  };
+  </script>
+
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>

@@ -5,10 +5,10 @@ import { CookieStorage, LocalStorage, SessionStorage } from 'ngx-store';
 
 @Component({
   selector: 'app-login',
-  templateUrl: './login.component.html',
+  templateUrl: './signup.component.html',
   styles: []
 })
-export class LoginComponent {
+export class SignupComponent {
   constructor(private http: HttpClient){}
 
   ngOnInit() {}
@@ -28,19 +28,10 @@ export class LoginComponent {
     }
 
     //---> prestavi v service
-    this.http.post('http://localhost:8080/existsUser', {
+    this.http.post('http://localhost:8080/saveUser', {
       "ime":this.user.ime,
       "geslo":this.user.geslo
-    }, {responseType: 'text'}).subscribe(data => {
-      if (!data) {
-        //prijava ni bila neuspešna
-        this.status.errorPrijava = 1;
-      }
-      else {
-        //prijava uspešna
-        localStorage.setItem('user', this.parseJwt(data).user.ime);
-        window.location.href = '/home';
-      }
+    }).subscribe(data => {
 
     });
   }

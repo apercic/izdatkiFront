@@ -1,0 +1,40 @@
+<div class="container">
+  <label>Sign up</label>
+  <form>
+
+    <div class="col-md-12">
+      <div class="form-group">
+        <label>Username</label>
+        <input type="text" name="username" [(ngModel)]="user.ime" required class="form-control">
+        <div [hidden]="!status.errorEInvalid" class="error">Invalid username!</div>
+        <div [hidden]="!status.errorENull" class="error">Required!</div>
+      </div>
+    </div>
+
+    <div class="col-md-12">
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" name="pass" [(ngModel)]="user.geslo" required class="form-control">
+        <div [hidden]="!status.errorPNull" class="error">Required!</div>
+      </div>
+    </div>
+
+
+    <div class="col-md-12">
+      <div class="form-group">
+        <button (click)="login()" class="btn btn-success pull-right">Login</button>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="col-md-12">
+        <div [hidden]="!status.errorPrijava" class="alert alert-danger">Napačna prijava</div>
+        <div [hidden]="!status.successPrijava" class="alert alert-success">Uspešna prijava</div>
+      </div>
+    </div>
+
+
+  </form>
+</div>
